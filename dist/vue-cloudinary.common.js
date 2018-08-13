@@ -86,6 +86,23 @@ const clImage = {
   },
 };
 
+const loadVideo = function(el, value, options) {
+  const videoTag = cloudinaryInstance.video(value, options);
+  el.innerHTML = videoTag;
+};
+
+const clVideo = {
+  inserted: function(el, binding) {
+    let options = toCloudinaryAttributes(el.attributes);
+    loadVideo(el, binding.value, options);
+  },
+
+  componentUpdated: function(el, binding) {
+    let options = toCloudinaryAttributes(el.attributes);
+    loadVideo(el, binding.value, options);
+  },
+};
+
 function install(Vue, options) {
   configuration = new cloudinary.Configuration(options);
   // if (cloudinary.CloudinaryJQuery && jQuery) {
@@ -97,7 +114,7 @@ function install(Vue, options) {
   // }
   cloudinary.Util.assign(cloudinaryInstance, cloudinary); // copy namespace to the service instance
   Vue.directive('cl-image', clImage);
-
+  Vue.directive('cl-video', clVideo);
 }
 
 exports.version = version;
